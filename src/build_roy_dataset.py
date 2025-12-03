@@ -21,7 +21,7 @@ NOTE:
 - NBA.com can rate-limit or block if you send too many requests too fast.
   This script sleeps between requests to be polite.
 """
-
+from pathlib import Path
 import time
 from typing import Dict, Any, List
 
@@ -41,22 +41,26 @@ from nba_api.stats.endpoints import (
 # rebounds, assists, points, steals, blocks, turnovers, gp, min, plus_minus
 
 # First season's starting year, e.g. 1996 -> "1996-97"
-START_YEAR = 1986
-# if 86 has all data stats
-
+START_YEAR = 1996
+# if 1986 has all data stats i want (might not have mins and games played)
+# changed it to 1984 now for 40 years exactly
+# originally had it at 1984 for 40 years but no rookies found for 1984-85 season so it always skipped
+#1996 is first year with all rookie data
 
 # Last season's starting year (inclusive).
 # Example: 2023 -> covers "2023-24"
 END_YEAR = 2024
 
 # Where to write the final dataset
-OUTPUT_CSV = "rookie_dataset.csv"
-
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = PROJECT_ROOT / "data"
+DATA_DIR.mkdir(exist_ok=True)
+OUTPUT_CSV = DATA_DIR / "rookie_dataset.csv"
 # Delay between HTTP requests (in seconds)
 API_SLEEP_SECONDS = 1.0
 
-# Whether to call CommonPlayerInfo for every player (slow / may timeout)
-# For the challenge, it's safer to keep this False.
+# calls CommonPlayerInfo for every player (i wanted this to be true originally to use draft pick)
+# buts its too slow and can time out
 ENRICH_PLAYER_INFO = False
 
 
