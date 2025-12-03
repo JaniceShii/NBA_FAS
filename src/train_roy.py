@@ -69,10 +69,24 @@ def main():
         df["TS_PCT"] = df["PTS"] / denom
         df["TS_PCT"] = df["TS_PCT"].fillna(0.0)
         print("Computed TS_PCT.")
+
+        # compare future roy winners only to past rookies (not to everyone in the league, like veterans)
+        df["SEASON_START"] = df["SEASON"].str.slice(0, 4).astype(int)
+        df = df.sort_values(["PLAYER_ID", "SEASON_START"])
+        first_season = df.groupby("PLAYER_ID")["SEASON_START"].transform("min")
+        df["IS_ROOKIE"] = (df["SEASON_START"] == first_season).astype(int)
+        df = df[df["IS_ROOKIE"] == 1].copy()
+        print("Filtered to rookies only. New shape:", df.shape)
     else:
         # If for some reason cols are missing, just fill TS_PCT with NaN/0
         print("WARNING: Missing PTS/FGA/FTA columns; TS_PCT will be set to 0.")
         df["TS_PCT"] = 0.0
+
+    df["SEASON_START"] = df["SEASON"].str.slice(0, 4).astype(int)
+
+    df = df.sort_values(["PLAYER_ID", "SEASON_START"])
+    first_season = df.groupby("PLAYER_ID")["SEASON_START"].transform("min")
+    df["IS_ROOKIE"] = (df["SEASON_START"] == first_season).astype(int)
 
     # --- 3. Load ROY winners ---
     print(f"Loading ROY Winners from {WINNERS_CSV} ...")
