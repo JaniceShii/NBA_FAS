@@ -30,3 +30,4 @@ python src/build_roy_dataset.py
 python src/train_roy_model.py
 python src/predict_roy.py
 ```
+The project has already been built for your convenience. If you would like to rebuild, retrain and regenerate, follow the instructions provided above.
