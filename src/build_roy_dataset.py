@@ -48,8 +48,8 @@ START_YEAR = 1996
 #1996 is first year with all rookie data
 
 # Last season's starting year (inclusive).
-# Example: 2023 -> covers "2023-24"
-END_YEAR = 2024
+# Example: 2025 -> covers "2025-26"
+END_YEAR = 2025
 
 # Where to write the final dataset
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
