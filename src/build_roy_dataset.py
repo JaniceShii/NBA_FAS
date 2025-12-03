@@ -174,6 +174,11 @@ def add_engineered_features(df: pd.DataFrame) -> pd.DataFrame:
     # Simple "impact" metric (toy feature): points + rebounds + 2*assists per game
     df["IMPACT_SCORE"] = df["PTS"] + df.get("REB", 0) + 2 * df.get("AST", 0)
 
+    if {"FGM", "FG3M", "FGA"}.issubset(df.columns):
+        df["EFG_PCT"] = (df["FGM"] + 0.5 * df["FG3M"]) / df["FGA"].replace(0, np.nan)
+        df["EFG_PCT"] = df["EFG_PCT"].fillna(0.0)
+    else:
+        df["EFG_PCT"] = 0.0
     return df
 
 

@@ -35,20 +35,34 @@ ROOKIE_CSV = DATA_DIR / "rookie_dataset.csv"
 WINNERS_CSV = DATA_DIR / "roy_winners.csv"
 MODEL_PATH = DATA_DIR / "roy_model.pkl"
 
-# Features you specified
 FEATURES = [
-    "PTS",         # ppg
-    "REB",         # rpg
-    "AST",         # apg
-    "MIN",         # mpg
-    "STL",         # spg
-    "BLK",         # bpg
-    "TOV",         # turnovers
-    "GS",          # games started
-    "EFG_PCT",     # eFG%
-    "PLUS_MINUS",  # plus/minus
-    "TS_PCT",      # true shooting percentage (computed below)
+    "PTS",         # points per game
+    "PTS_per36",   # points per 36
+
+    "REB",         # rebounds per game
+    "REB_per36",   # rebounds per 36
+
+    "AST",         # assists per game
+    "AST_per36",   # assists per 36
+
+    "MIN",         # minutes per game
+
+    "STL",         # steals per game
+    "STL_per36",   # steals per 36
+
+    "BLK",         # blocks per game
+    "BLK_per36",   # blocks per 36
+
+    "TOV",         # turnovers per game
+
+    "GP",          # games played
+
+    "EFG_PCT",     # effective FG%
+    "PLUS_MINUS",  # on/off plus-minus
+
+    "TS_PCT",      # true shooting percentage (computed)
 ]
+
 
 
 # ---------------------- MAIN ---------------------- #
@@ -142,6 +156,7 @@ def main():
     )
 
     # --- 7. Build pipeline: StandardScaler + LogisticRegression ---
+    # normalize data first (VERY IMPORTANT)
     pipeline = Pipeline([
         ("scaler", StandardScaler()),
         ("logreg", LogisticRegression(
